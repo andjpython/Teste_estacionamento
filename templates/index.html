@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estacionamento Rotativo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body onload="iniciarAnimacao()">
+
+  <!-- Banner -->
+  <div id="banner" class="banner-condominio">
+    <h1>🌸 Recantos das Flores I</h1>
+    <h2>Estacionamento Rotativo</h2>
+  </div>
+
+  <!-- Área do Supervisor -->
+  <div class="container">
+    <h2>🔐 Área do Supervisor</h2>
+    <form id="formLoginSupervisor">
+      <input type="password" name="senha" placeholder="Senha do supervisor" required>
+      <button type="submit">Entrar como Supervisor</button>
+    </form>
+    <p id="mensagemSupervisor"></p>
+  </div>
+
+  <!-- Cadastrar Funcionário -->
+  <div class="container">
+    <h2>👨‍🔧 Cadastrar Funcionário</h2>
+    <form id="formCadastroFuncionario">
+      <input type="text" name="nome" placeholder="Nome do funcionário" required>
+      <input type="text" name="matricula" placeholder="Matrícula" required>
+      <input type="password" name="senha_supervisor" placeholder="Senha do supervisor" required>
+      <button type="submit">Cadastrar Funcionário</button>
+    </form>
+    <p id="mensagemCadastroFuncionario"></p>
+  </div>
+
+  <!-- Funcionários Cadastrados -->
+  <div class="container">
+    <h2>📋 Funcionários Cadastrados</h2>
+    <input type="password" id="senhaListar" placeholder="Senha do supervisor">
+    <button onclick="listarFuncionarios()">Listar</button>
+    <ul id="listaFuncionarios"></ul>
+  </div>
+
+  <!-- Login Funcionário -->
+  <div class="container">
+    <h2>👷 Login Funcionário</h2>
+    <form id="formLoginFuncionario">
+      <input type="text" name="matricula" placeholder="Matrícula" required>
+      <button type="submit">Login</button>
+    </form>
+    <p id="mensagemLoginFuncionario"></p>
+  </div>
+
+  <!-- Logout Funcionário -->
+  <div class="container">
+    <h2>🚪 Logout Funcionário</h2>
+    <form id="formLogoutFuncionario">
+      <input type="text" name="matricula" placeholder="Matrícula" required>
+      <button type="submit">Logout</button>
+    </form>
+    <p id="mensagemLogoutFuncionario"></p>
+  </div>
+
+  <!-- Cadastrar Veículo -->
+  <div class="container">
+    <h2>🚗 Cadastrar Veículo</h2>
+    <form id="formCadastrarVeiculo">
+      <input type="text" name="cpf" placeholder="CPF" required>
+      <input type="text" name="placa" placeholder="Placa" required>
+      <input type="text" name="modelo" placeholder="Modelo">
+      <input type="text" name="nome" placeholder="Nome do proprietário">
+      <input type="text" name="bloco" placeholder="Bloco">
+      <input type="text" name="apartamento" placeholder="Apartamento">
+      <button type="submit">Cadastrar Veículo</button>
+    </form>
+    <p id="mensagemVeiculo"></p>
+  </div>
+
+  <!-- Estacionar Veículo (com CPF e Modelo) -->
+  <div class="container">
+    <h2>🅿️ Estacionar Veículo</h2>
+    <form id="formEstacionar">
+      <input type="text" name="cpf" placeholder="CPF do proprietário" required>
+      <input type="text" name="placa" placeholder="Placa do veículo" required>
+      <input type="text" name="modelo" placeholder="Modelo do veículo">
+      <button type="submit">Estacionar</button>
+    </form>
+    <p id="mensagemEstacionar"></p>
+  </div>
+
+  <!-- Liberar Veículo -->
+  <div class="container">
+    <h2>🧹 Liberar Veículo</h2>
+    <form id="formLiberar">
+      <input type="text" name="cpf" placeholder="CPF do proprietário" required>
+      <input type="text" name="matricula" placeholder="Matrícula do funcionário" required>
+      <button type="submit">Liberar Vaga</button>
+    </form>
+    <p id="mensagemLiberar"></p>
+  </div>
+
+  <!-- Status das Vagas -->
+  <div class="vagas-section">
+    <h2>📊 Status das Vagas</h2>
+    <button onclick="carregarVagas()">🔄 Atualizar</button>
+    <div id="vagasContainer" class="vagas-grid"></div>
+  </div>
+
+  <!-- Verificar Tempo Excedido -->
+  <div class="container">
+    <h2>⏱️ Verificar Tempo Excedido</h2>
+    <button onclick="verificarTempo()">Verificar</button>
+    <p id="alertaTempo"></p>
+  </div>
+
+  <!-- Animação -->
+  <script>
+    function iniciarAnimacao() {
+      const banner = document.getElementById('banner');
+      banner.classList.add('fade-in');
+    }
+
+    function criarFolha() {
+      const folha = document.createElement('div');
+      folha.classList.add('folha');
+      folha.style.left = Math.random() * window.innerWidth + 'px';
+      folha.style.animationDuration = 5 + Math.random() * 5 + 's';
+      folha.style.width = folha.style.height = 20 + Math.random() * 20 + 'px';
+      folha.style.backgroundImage = "url('/static/imagens/folha.png')";
+      document.body.appendChild(folha);
+      setTimeout(() => folha.remove(), 10000);
+    }
+
+    setInterval(criarFolha, 500);
+  </script>
+
+  <!-- Script principal com chamadas à API -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
