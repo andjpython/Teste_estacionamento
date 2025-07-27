@@ -2,14 +2,9 @@ import json
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from getpass import getpass
-
-def ver_historico(historico):
-    if not historico:
-        return "📭 Nenhum registro no histórico."
-    return "\n".join([
-        f"{h.get('data', h.get('data_saida', ''))}: {h['acao']} - {h.get('placa', '')} - {h.get('nome', '')}"
-        for h in historico
-    ])
+from services.historico_service import ver_historico
+from services.veiculo_service import listar_veiculos_cadastrados
+from services.funcionario_service import listar_funcionarios, cadastrar_funcionario
 
 def remover_funcionario(funcionarios, matricula):
     func = next((f for f in funcionarios if f["matricula"] == matricula), None)
@@ -20,7 +15,7 @@ def remover_funcionario(funcionarios, matricula):
 
 def menu_supervisor(carregar_dados, salvar_dados, cadastrar_funcionario, listar_funcionarios, listar_veiculos_cadastrados):
     senha = getpass("Digite a senha de supervisor: ")
-    if senha != "2904":
+    if senha != "290479":
         print("❌ Senha incorreta!")
         return
 

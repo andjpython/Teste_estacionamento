@@ -3,141 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estacionamento Rotativo</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <title>Estacionamento Rotativo - Recantos das Flores I</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Bahnschrift:wght@700&display=swap" rel="stylesheet">
 </head>
 <body onload="iniciarAnimacao()">
+  <nav class="navbar">
+    <div class="navbar-logo">
+      <img src="/static/imagens/logo_recanto_das_flores.png" alt="Logo Recantos das Flores" height="80">
+      <span class="logo-text">Recantos das Flores I</span>
+    </div>
+    <ul class="navbar-links">
+      <li><a href="#inicio">Início</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#contato">Contato</a></li>
+      <li><a href="#" onclick="abrirModalLogin()">Entrada</a></li>
+    </ul>
+  </nav>
 
-  <!-- Banner -->
-  <div id="banner" class="banner-condominio">
+  <!-- Modal de Login -->
+  <div id="modalLogin" class="modal-login">
+    <div class="modal-content">
+      <span class="close-modal" onclick="fecharModalLogin()">&times;</span>
+      <h2>Área de Login</h2>
+      <div class="login-forms">
+        <form id="loginFuncionarioForm" class="login-form">
+          <h3>Login Funcionário</h3>
+          <input type="text" id="matriculaFuncionario" name="matriculaFuncionario" placeholder="Matrícula" required>
+          <button type="submit">Entrar</button>
+        </form>
+        <form id="loginSupervisorForm" class="login-form">
+          <h3>Login Supervisor</h3>
+          <input type="password" id="senhaSupervisor" name="senhaSupervisor" placeholder="Senha" required>
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+      <div style="text-align: center; margin-top: 30px;">
+        <div id="sistemaAcessoContainer">
+          <!-- Botão quando não logado -->
+          <div id="sistemaNaoLogado" class="sistema-acesso">
+            <div style="
+              display: inline-block;
+              background: linear-gradient(135deg, #ccc 0%, #999 100%);
+              color: #666;
+              text-decoration: none;
+              padding: 15px 30px;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              cursor: not-allowed;
+              opacity: 0.6;
+            ">🔒 Acesso Restrito - Faça Login Primeiro</div>
+          </div>
+          
+          <!-- Botão quando logado -->
+          <div id="sistemaLogado" class="sistema-acesso" style="display: none;">
+            <a href="/sistema" class="btn-sistema" style="
+              display: inline-block;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              color: white;
+              text-decoration: none;
+              padding: 15px 30px;
+              border-radius: 8px;
+              font-weight: 600;
+              font-size: 16px;
+              transition: all 0.3s ease;
+              box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            ">🚀 Acessar Sistema Completo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="imagens-flutuantes" aria-hidden="true"></div>
+  <header id="inicio" class="banner-condominio" aria-label="Banner do condomínio Recantos das Flores I">
     <h1>🌸 Recantos das Flores I</h1>
-    <h2>Estacionamento Rotativo</h2>
-  </div>
-
-  <!-- Área do Supervisor -->
-  <div class="container">
-    <h2>🔐 Área do Supervisor</h2>
-    <form id="formLoginSupervisor">
-      <input type="password" name="senha" placeholder="Senha do supervisor" required>
-      <button type="submit">Entrar como Supervisor</button>
-    </form>
-    <p id="mensagemSupervisor"></p>
-  </div>
-
-  <!-- Cadastrar Funcionário -->
-  <div class="container">
-    <h2>👨‍🔧 Cadastrar Funcionário</h2>
-    <form id="formCadastroFuncionario">
-      <input type="text" name="nome" placeholder="Nome do funcionário" required>
-      <input type="text" name="matricula" placeholder="Matrícula" required>
-      <input type="password" name="senha_supervisor" placeholder="Senha do supervisor" required>
-      <button type="submit">Cadastrar Funcionário</button>
-    </form>
-    <p id="mensagemCadastroFuncionario"></p>
-  </div>
-
-  <!-- Funcionários Cadastrados -->
-  <div class="container">
-    <h2>📋 Funcionários Cadastrados</h2>
-    <input type="password" id="senhaListar" placeholder="Senha do supervisor">
-    <button onclick="listarFuncionarios()">Listar</button>
-    <ul id="listaFuncionarios"></ul>
-  </div>
-
-  <!-- Login Funcionário -->
-  <div class="container">
-    <h2>👷 Login Funcionário</h2>
-    <form id="formLoginFuncionario">
-      <input type="text" name="matricula" placeholder="Matrícula" required>
-      <button type="submit">Login</button>
-    </form>
-    <p id="mensagemLoginFuncionario"></p>
-  </div>
-
-  <!-- Logout Funcionário -->
-  <div class="container">
-    <h2>🚪 Logout Funcionário</h2>
-    <form id="formLogoutFuncionario">
-      <input type="text" name="matricula" placeholder="Matrícula" required>
-      <button type="submit">Logout</button>
-    </form>
-    <p id="mensagemLogoutFuncionario"></p>
-  </div>
-
-  <!-- Cadastrar Veículo -->
-  <div class="container">
-    <h2>🚗 Cadastrar Veículo</h2>
-    <form id="formCadastrarVeiculo">
-      <input type="text" name="cpf" placeholder="CPF" required>
-      <input type="text" name="placa" placeholder="Placa" required>
-      <input type="text" name="modelo" placeholder="Modelo">
-      <input type="text" name="nome" placeholder="Nome do proprietário">
-      <input type="text" name="bloco" placeholder="Bloco">
-      <input type="text" name="apartamento" placeholder="Apartamento">
-      <button type="submit">Cadastrar Veículo</button>
-    </form>
-    <p id="mensagemVeiculo"></p>
-  </div>
-
-  <!-- Estacionar Veículo (com CPF e Modelo) -->
-  <div class="container">
-    <h2>🅿️ Estacionar Veículo</h2>
-    <form id="formEstacionar">
-      <input type="text" name="cpf" placeholder="CPF do proprietário" required>
-      <input type="text" name="placa" placeholder="Placa do veículo" required>
-      <input type="text" name="modelo" placeholder="Modelo do veículo">
-      <button type="submit">Estacionar</button>
-    </form>
-    <p id="mensagemEstacionar"></p>
-  </div>
-
-  <!-- Liberar Veículo -->
-  <div class="container">
-    <h2>🧹 Liberar Veículo</h2>
-    <form id="formLiberar">
-      <input type="text" name="cpf" placeholder="CPF do proprietário" required>
-      <input type="text" name="matricula" placeholder="Matrícula do funcionário" required>
-      <button type="submit">Liberar Vaga</button>
-    </form>
-    <p id="mensagemLiberar"></p>
-  </div>
-
-  <!-- Status das Vagas -->
-  <div class="vagas-section">
-    <h2>📊 Status das Vagas</h2>
-    <button onclick="carregarVagas()">🔄 Atualizar</button>
-    <div id="vagasContainer" class="vagas-grid"></div>
-  </div>
-
-  <!-- Verificar Tempo Excedido -->
-  <div class="container">
-    <h2>⏱️ Verificar Tempo Excedido</h2>
-    <button onclick="verificarTempo()">Verificar</button>
-    <p id="alertaTempo"></p>
-  </div>
-
-  <!-- Animação -->
-  <script>
-    function iniciarAnimacao() {
-      const banner = document.getElementById('banner');
-      banner.classList.add('fade-in');
-    }
-
-    function criarFolha() {
-      const folha = document.createElement('div');
-      folha.classList.add('folha');
-      folha.style.left = Math.random() * window.innerWidth + 'px';
-      folha.style.animationDuration = 5 + Math.random() * 5 + 's';
-      folha.style.width = folha.style.height = 20 + Math.random() * 20 + 'px';
-      folha.style.backgroundImage = "url('/static/imagens/folha.png')";
-      document.body.appendChild(folha);
-      setTimeout(() => folha.remove(), 10000);
-    }
-
-    setInterval(criarFolha, 500);
-  </script>
-
-  <!-- Script principal com chamadas à API -->
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <h2>Estacionamento Rotativo Profissional</h2>
+  </header>
+  <main>
+    <section aria-label="Notificações e Frases" class="notificacoes-section">
+      <div id="containerPopup">
+        <div id="notificacoesVagas" aria-label="Notificações de tempo excedido"></div>
+      </div>
+      <div id="notificacoesTempoBox" aria-label="Notificações de veículos que ultrapassaram o tempo">
+        <span class="notificacoes-titulo"><b><i>Notificações de veículos<br>que ultrapassaram o tempo!</i></b></span>
+      </div>
+      <div id="frasesMotivacionaisBox" aria-label="Frases motivacionais">
+        <div class="frase-motivacional">
+          <span class="frase-texto" id="fraseAtual" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+    <section class="painel-section" aria-label="Painel de horário e funcionários logados">
+      <aside id="painel-horario" aria-label="Horário de Brasília">
+        <h3>Horário de Brasília</h3>
+        <div id="horaBrasilia" class="hora-digital">--:--:--</div>
+        <div id="dataBrasilia" class="data-digital"></div>
+        <div class="localizacao">Madureira</div>
+      </aside>
+      <aside id="funcionariosLogadosBox" aria-label="Funcionários logados">
+        <h3>FUNCIONÁRIOS LOGADOS</h3>
+        <ul id="listaFuncionariosLogados"></ul>
+        <div id="logoutSection" style="margin-top: 15px; text-align: center;">
+          <button onclick="logoutFuncionario()" class="btn-logout">🚪 Logout Funcionário</button>
+        </div>
+      </aside>
+    </section>
+    <section id="sobre" class="institucional-section" aria-label="Sobre o Empreendimento">
+      <h2>🚗 Sobre o Empreendimento</h2>
+      <p>O <b>Recantos das Flores I</b> apresenta um estacionamento rotativo inteligente, projetado para trazer mais organização, segurança e agilidade ao dia a dia de moradores, visitantes e colaboradores.</p>
+      <p>Nosso sistema automatizado proporciona controle total do tempo de permanência, transparência nas operações e comunicação em tempo real, elevando o padrão de gestão do espaço.</p>
+      <ul class="diferenciais-lista">
+        <li>✅ Vagas em área aberta, amplas e bem sinalizadas</li>
+        <li>✅ Monitoramento 24 horas com segurança reforçada</li>
+        <li>✅ Controle de acesso digital com tecnologia moderna</li>
+        <li>✅ Notificações automáticas em caso de tempo excedido</li>
+        <li>✅ Equipe treinada com foco em atendimento humanizado</li>
+      </ul>
+      <div class="beneficios-section">
+        <h3>Benefícios para todos os usuários:</h3>
+        <ul class="beneficios-lista">
+          <li>• Evita uso indevido das vagas</li>
+          <li>• Reduz conflitos e garante rotatividade</li>
+          <li>• Gera economia com tempo otimizado</li>
+          <li>• Proporciona mais conforto e previsibilidade</li>
+        </ul>
+      </div>
+      <div class="localizacao-mapa">
+        <h3>Localização</h3>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3675.123456789!2d-43.3456789!3d-22.8754321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9999999999999999%3A0xaaaaaaaaaaaaaaaa!2sRecantos%20das%20Flores%20I!5e0!3m2!1spt-BR!2sbr!4v1680000000000!5m2!1spt-BR!2sbr" width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </section>
+    <section id="galeria" class="galeria-section" aria-label="Galeria de Fotos">
+      <h2>Galeria de Fotos</h2>
+      <div class="galeria-grid">
+        <img src="/static/imagens/tenda.jpg" alt="Vista do estacionamento" class="galeria-img">
+        <img src="/static/imagens/tenda1.jpg" alt="Área coberta do estacionamento" class="galeria-img">
+        <img src="/static/imagens/folha.png" alt="Detalhe paisagístico" class="galeria-img">
+        <!-- Adicione mais imagens conforme necessário -->
+      </div>
+    </section>
+    <section id="contato" class="contato-section" aria-label="Contato">
+      <h2>Contato</h2>
+      <form class="contato-form" autocomplete="off">
+        <label for="nomeContato">Nome:</label>
+        <input type="text" id="nomeContato" name="nomeContato" required>
+        <label for="emailContato">E-mail:</label>
+        <input type="email" id="emailContato" name="emailContato" required>
+        <label for="mensagemContato">Mensagem:</label>
+        <textarea id="mensagemContato" name="mensagemContato" rows="4" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+      <div class="contato-info">
+        <p><b>Telefone:</b> (21) 99999-9999</p>
+        <p><b>WhatsApp:</b> (21) 98888-8888</p>
+        <p><b>E-mail:</b> contato@recantodasflores.com.br</p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer-institucional">
+    <div class="footer-content">
+      <span>&copy; 2024 Recantos das Flores I - Estacionamento Rotativo. Todos os direitos reservados.</span>
+      <span>Desenvolvido por Anderson Jacinto da Silveira</span>
+    </div>
+  </footer>
+  <script src="/static/script.js"></script>
 </body>
 </html>

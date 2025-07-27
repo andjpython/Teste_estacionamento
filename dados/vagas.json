@@ -2,9 +2,9 @@
     {
         "numero": 1,
         "tipo": "comum",
-        "ocupada": false,
-        "veiculo": null,
-        "entrada": null
+        "ocupada": true,
+        "veiculo": "BEE4R22",
+        "entrada": "2025-07-26T16:43:55.577340-03:00"
     },
     {
         "numero": 2,
