@@ -715,10 +715,10 @@
     const timersVagas = {};
 
     // Função para calcular tempo restante em milissegundos
-    function calcularTempoRestante(dataEntrada, limiteHoras = 72) {
+    function calcularTempoRestante(dataEntrada, limiteHoras = 0.16667) {
       const agora = new Date().getTime();
       const entrada = new Date(dataEntrada).getTime();
-      const limite = entrada + (limiteHoras * 60 * 60 * 1000); // 72 horas em ms
+      const limite = entrada + (limiteHoras * 60 * 60 * 1000); // 10 minutos em ms
       return limite - agora;
     }
 
@@ -737,7 +737,7 @@
     }
 
     // Função para determinar a classe CSS baseada no tempo restante
-    function obterClasseTimer(milissegundos, totalMillis = 72 * 60 * 60 * 1000) {
+    function obterClasseTimer(milissegundos, totalMillis = 0.16667 * 60 * 60 * 1000) {
       if (milissegundos <= 0) return 'timer-expired';
       
       const porcentagemRestante = (milissegundos / totalMillis) * 100;

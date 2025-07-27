@@ -16,9 +16,9 @@
     {
         "numero": 3,
         "tipo": "comum",
-        "ocupada": false,
-        "veiculo": null,
-        "entrada": null
+        "ocupada": true,
+        "veiculo": "ADE7F32",
+        "entrada": "2025-07-27T12:51:07.314264-03:00"
     },
     {
         "numero": 4,

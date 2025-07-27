@@ -472,5 +472,19 @@
         "matricula": "0001",
         "nome": "João Carlos Ferreira Nascimento",
         "data": "2025-07-27T10:18:33.897295-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T12:50:32.436140-03:00"
+    },
+    {
+        "acao": "entrada_veiculo",
+        "placa": "ADE7F32",
+        "nome": "Vagener Moreira Costa",
+        "tipo": "morador",
+        "vaga": 3,
+        "data": "2025-07-27T12:51:07.314264-03:00"
     }
 ]

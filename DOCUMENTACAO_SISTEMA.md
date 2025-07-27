@@ -85,7 +85,7 @@ Sistema completo e profissional para gestão de estacionamento rotativo em condo
 - **Ocupada**: `ocupada: true`, com placa e timestamp de entrada
 
 #### Limite de Tempo
-- **72 horas (3 dias)**: Tempo máximo permitido
+- **10 minutos**: Tempo máximo permitido
 - **Timer regressivo**: Contagem em tempo real no frontend
 - **Sistema de alertas**: Visual por cores (verde/amarelo/vermelho)
 

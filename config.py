@@ -17,8 +17,8 @@ class Config:
     FUNCIONARIOS_PATH = DADOS_DIR / "funcionarios.json"
     
     # === REGRAS DE NEGÓCIO ===
-    # Limite de tempo em horas (3 dias)
-    LIMITE_HORAS_ESTACIONAMENTO = 72
+    # Limite de tempo em horas (10 minutos)
+    LIMITE_HORAS_ESTACIONAMENTO = 0.16667
     
     # Tipos de vagas disponíveis
     TIPOS_VAGA = ["comum", "visitante"]

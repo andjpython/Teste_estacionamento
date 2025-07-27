@@ -18,7 +18,7 @@ Sistema profissional para gestão de estacionamento rotativo em condomínios, de
 
 ### 🅿️ **Controle de Vagas**
 - 20 vagas comuns (moradores) + 10 visitantes
-- Timer regressivo em tempo real (72h limite)
+- Timer regressivo em tempo real (10 minutos limite)
 - Alertas visuais por cores (verde/amarelo/vermelho)
 - Auto-refresh e cleanup de memória
 
