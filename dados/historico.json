@@ -418,5 +418,21 @@
         "tipo": "morador",
         "vaga": 2,
         "data": "2025-07-26T21:24:57.321127-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-26T21:43:32.393255-03:00"
+    },
+    {
+        "acao": "saida_veiculo",
+        "placa": "BEE4R22",
+        "nome": "Falcão Cardoso Falópio",
+        "vaga": 1,
+        "tempo_min": 300,
+        "funcionario": "João Carlos Ferreira Nascimento",
+        "matricula": "0001",
+        "data_saida": "2025-07-26T21:44:19.359805-03:00"
     }
 ]
