@@ -401,3 +401,206 @@ style.innerHTML = `
 }
 `;
 document.head.appendChild(style);
+
+/* ===== GALERIA DE FOTOS PROFISSIONAL ===== */
+
+// Configuração da galeria
+const galeriaConfig = {
+  imagens: [
+    {
+      src: '/static/imagens/entrada.avif',
+      titulo: 'Entrada Principal',
+      descricao: 'Portaria moderna do Recanto das Flores I'
+    },
+    {
+      src: '/static/imagens/entradas.jpg',
+      titulo: 'Área de Acesso',
+      descricao: 'Vista geral das entradas do condomínio'
+    },
+    {
+      src: '/static/imagens/predio.jpg',
+      titulo: 'Torre Residencial',
+      descricao: 'Edifício principal com arquitetura contemporânea'
+    },
+    {
+      src: '/static/imagens/predios.png',
+      titulo: 'Conjunto Arquitetônico',
+      descricao: 'Vista panorâmica dos edifícios'
+    },
+    {
+      src: '/static/imagens/jardim3.webp',
+      titulo: 'Área Verde',
+      descricao: 'Jardins paisagísticos do empreendimento'
+    },
+    {
+      src: '/static/imagens/quartos.jpg',
+      titulo: 'Área Residencial',
+      descricao: 'Ambiente interno dos apartamentos'
+    },
+    {
+      src: '/static/imagens/tenda1.jpg',
+      titulo: 'Área de Lazer',
+      descricao: 'Espaço coberto para eventos e recreação'
+    }
+  ],
+  indiceAtual: 0,
+  intervaloPrincipal: null,
+  velocidadeAparecer: 4000, // 4 segundos entre cada foto
+  velocidadeMovimento: 12000, // 12 segundos para atravessar a tela
+  fotosNaTela: []
+};
+
+// Inicializar galeria
+function iniciarGaleria() {
+  const galeriaTrack = document.getElementById('galeriaTrack');
+  if (!galeriaTrack) return;
+
+  // Embaralhar imagens para ordem aleatória
+  embaralharArray(galeriaConfig.imagens);
+  
+  // Começar a animação
+  galeriaConfig.intervaloPrincipal = setInterval(adicionarNovaFoto, galeriaConfig.velocidadeAparecer);
+  
+  // Adicionar primeira foto imediatamente
+  setTimeout(adicionarNovaFoto, 1000);
+}
+
+// Embaralhar array (algoritmo Fisher-Yates)
+function embaralharArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Adicionar nova foto à galeria
+function adicionarNovaFoto() {
+  const galeriaTrack = document.getElementById('galeriaTrack');
+  if (!galeriaTrack) return;
+
+  const imagemData = galeriaConfig.imagens[galeriaConfig.indiceAtual];
+  
+  // Criar elemento da foto
+  const fotoDiv = document.createElement('div');
+  fotoDiv.className = 'galeria-foto';
+  fotoDiv.style.top = Math.random() * 80 + 'px'; // Posição vertical aleatória
+  fotoDiv.style.left = '-300px'; // Começar fora da tela
+  
+  // Criar imagem
+  const img = document.createElement('img');
+  img.src = imagemData.src;
+  img.alt = imagemData.titulo;
+  img.style.width = '100%';
+  img.style.height = '100%';
+  img.style.objectFit = 'cover';
+  img.style.borderRadius = '12px';
+  
+  // Criar overlay com informações
+  const overlay = document.createElement('div');
+  overlay.className = 'galeria-foto-overlay';
+  
+  const titulo = document.createElement('div');
+  titulo.className = 'foto-titulo';
+  titulo.textContent = imagemData.titulo;
+  
+  const descricao = document.createElement('div');
+  descricao.className = 'foto-descricao';
+  descricao.textContent = imagemData.descricao;
+  
+  overlay.appendChild(titulo);
+  overlay.appendChild(descricao);
+  
+  fotoDiv.appendChild(img);
+  fotoDiv.appendChild(overlay);
+  galeriaTrack.appendChild(fotoDiv);
+  
+  // Armazenar referência
+  galeriaConfig.fotosNaTela.push(fotoDiv);
+  
+  // Animar entrada da foto
+  setTimeout(() => {
+    fotoDiv.classList.add('ativa');
+    animarMovimentoFoto(fotoDiv);
+  }, 100);
+  
+  // Avançar para próxima imagem
+  galeriaConfig.indiceAtual = (galeriaConfig.indiceAtual + 1) % galeriaConfig.imagens.length;
+  
+  // Re-embaralhar quando completar o ciclo
+  if (galeriaConfig.indiceAtual === 0) {
+    embaralharArray(galeriaConfig.imagens);
+  }
+}
+
+// Animar movimento da foto da esquerda para direita
+function animarMovimentoFoto(fotoElement) {
+  const larguraContainer = fotoElement.parentElement.offsetWidth;
+  const larguraFoto = fotoElement.offsetWidth;
+  const distanciaTotal = larguraContainer + larguraFoto + 200; // Extra para fade out
+  
+  let posicaoAtual = -300;
+  const incremento = distanciaTotal / (galeriaConfig.velocidadeMovimento / 50); // 50ms de intervalo
+  
+  const intervalMovimento = setInterval(() => {
+    posicaoAtual += incremento;
+    fotoElement.style.left = posicaoAtual + 'px';
+    
+    // Fade out quando estiver chegando na direita
+    const progresso = posicaoAtual / distanciaTotal;
+    if (progresso > 0.7) {
+      const opacidade = Math.max(0, 1 - ((progresso - 0.7) / 0.3));
+      fotoElement.style.opacity = opacidade;
+    }
+    
+    // Remover quando sair completamente da tela
+    if (posicaoAtual >= distanciaTotal) {
+      clearInterval(intervalMovimento);
+      fotoElement.remove();
+      
+      // Remover da lista de fotos na tela
+      const index = galeriaConfig.fotosNaTela.indexOf(fotoElement);
+      if (index > -1) {
+        galeriaConfig.fotosNaTela.splice(index, 1);
+      }
+    }
+  }, 50);
+}
+
+// Pausar galeria quando não estiver visível
+function observarGaleria() {
+  const galeriaSection = document.getElementById('galeria');
+  if (!galeriaSection) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!galeriaConfig.intervaloPrincipal) {
+          iniciarGaleria();
+        }
+      } else {
+        if (galeriaConfig.intervaloPrincipal) {
+          clearInterval(galeriaConfig.intervaloPrincipal);
+          galeriaConfig.intervaloPrincipal = null;
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  observer.observe(galeriaSection);
+}
+
+// Iniciar quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+  // Aguardar um pouco para garantir que todos elementos estejam carregados
+  setTimeout(() => {
+    observarGaleria();
+    iniciarGaleria();
+  }, 2000);
+});
+
+// Limpar intervalos quando sair da página
+window.addEventListener('beforeunload', function() {
+  if (galeriaConfig.intervaloPrincipal) {
+    clearInterval(galeriaConfig.intervaloPrincipal);
+  }
+});

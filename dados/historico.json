@@ -404,5 +404,19 @@
         "matricula": "0001",
         "nome": "João Carlos Ferreira Nascimento",
         "data": "2025-07-26T21:01:25.483294-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-26T21:24:43.737586-03:00"
+    },
+    {
+        "acao": "entrada_veiculo",
+        "placa": "BCE4F33",
+        "nome": "Romano Pereira Carvalho",
+        "tipo": "morador",
+        "vaga": 2,
+        "data": "2025-07-26T21:24:57.321127-03:00"
     }
 ]
