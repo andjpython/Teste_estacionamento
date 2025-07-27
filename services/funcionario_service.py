@@ -1,21 +1,27 @@
-# === Cadastro de funcionário ===
+"""
+Serviços para gerenciamento de funcionários
+"""
+from config import active_config
+
 def cadastrar_funcionario(funcionarios, nome, matricula):
+    """Cadastra um novo funcionário no sistema"""
     if any(f['matricula'] == matricula for f in funcionarios):
         return "❌ Matrícula já cadastrada."
     if not matricula or len(matricula) != 4 or not matricula.isdigit():
-        return "❌ Matrícula inválida. Deve conter 4 dígitos."
+        return active_config.Mensagens.MATRICULA_INVALIDA
     if not nome:
         return "❌ Nome do funcionário é obrigatório."
+    
     funcionarios.append({
-        "nome": nome,
-        "matricula": matricula
+        "nome": nome.strip(),
+        "matricula": matricula.strip()
     })
-    return f"✅ Funcionário {nome} cadastrado com matrícula {matricula}."
+    return active_config.Mensagens.FUNCIONARIO_CADASTRADO.format(nome=nome, matricula=matricula)
 
-# === Listar funcionários ===
 def listar_funcionarios(funcionarios):
+    """Lista todos os funcionários cadastrados"""
     if not funcionarios:
-        return "📭 Nenhum funcionário cadastrado."
+        return active_config.Mensagens.NENHUM_FUNCIONARIO_CADASTRADO
     return "\n".join([f"Nome: {f['nome']} | Matrícula: {f['matricula']}" for f in funcionarios])
 
 # === Buscar funcionário por matrícula ===

@@ -37,6 +37,8 @@ def supervisor_area():
 def supervisor_sistema():
     return render_template('supervisor_sistema.html', nome_supervisor='Anderson J Silveira')
 
+
+
 @app.route('/vagas-completas', methods=['GET'])
 def listar_vagas_completas():
     try:

@@ -4,11 +4,11 @@ from estacionamento import carregar_dados, salvar_dados, registrar_entrada, regi
 from datetime import datetime
 import pytz
 import os
-import logging
+from config import active_config
+from utils.logging_config import setup_logger, log_operation, log_error
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Configurar logger
+logger = setup_logger(__name__)
 
 funcionarios_bp = Blueprint('funcionarios', __name__)
 
@@ -26,33 +26,33 @@ def cadastrar_funcionario_route():
         nome = data.get('nome', '').strip()
         matricula = data.get('matricula', '').strip()
         senha = data.get('senha_supervisor', '')
-        senha_master = os.environ.get("SENHA_SUPERVISOR", "290479")
+        senha_master = active_config.SENHA_SUPERVISOR
         
         if not nome or not matricula:
-            return jsonify({'mensagem': 'Nome e matrícula são obrigatórios!'}), 400
+            return jsonify({'mensagem': active_config.Mensagens.DADOS_NAO_FORNECIDOS}), 400
             
         if senha != senha_master:
-            return jsonify({'mensagem': 'Acesso negado. Senha do supervisor incorreta!'}), 403
+            return jsonify({'mensagem': active_config.Mensagens.SENHA_INCORRETA}), 403
             
         veiculos, vagas, historico, funcionarios = carregar_dados()
         resposta = cadastrar_funcionario(funcionarios, nome, matricula)
         
         if "✅" in resposta:  # Cadastro bem-sucedido
             salvar_dados(veiculos, vagas, historico, funcionarios)
-            logger.info(f"Funcionário {nome} cadastrado com matrícula {matricula}")
+            log_operation(logger, f"Funcionário {nome} cadastrado com matrícula {matricula}")
             
         return jsonify({'mensagem': resposta})
         
     except Exception as e:
-        logger.error(f"Erro ao cadastrar funcionário: {e}")
-        return jsonify({'mensagem': 'Erro interno do servidor!'}), 500
+        log_error(logger, e, "cadastro de funcionário")
+        return jsonify({'mensagem': active_config.Mensagens.ERRO_INTERNO}), 500
 
 # Listar funcionários
 @funcionarios_bp.route('/funcionarios', methods=['GET'])
 def listar_funcionarios_route():
     try:
         senha = request.args.get('senha_supervisor', '')
-        senha_master = os.environ.get("SENHA_SUPERVISOR", "290479")
+        senha_master = active_config.SENHA_SUPERVISOR
         
         if senha != senha_master:
             return jsonify({'mensagem': 'Acesso negado. Senha incorreta!'}), 403

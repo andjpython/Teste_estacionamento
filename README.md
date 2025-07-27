@@ -1,33 +1,44 @@
-# 🅿️ Sistema de Estacionamento Rotativo Profissional - Recantos das Flores I
+# 🅿️ Sistema de Estacionamento Rotativo - Recantos das Flores I
 
-Projeto completo e profissional para gestão de estacionamento rotativo em condomínios, desenvolvido com Python (Flask), HTML5, CSS3 e JavaScript moderno. O sistema possui layout institucional, responsivo, seguro e modularizado, pronto para uso em empreendimentos como o Recantos das Flores I.
-
----
-
-## 🚀 Funcionalidades
-
-- Login de supervisor e funcionários
-- Cadastro e listagem de veículos
-- Gestão de vagas (estacionar, liberar, tempo excedido)
-- Notificações automáticas e frases motivacionais
-- Painel de horário de Brasília e funcionários logados
-- Página institucional: Sobre, Galeria, Contato
-- Layout moderno, responsivo e acessível
-- Imagens flutuantes e animações suaves
+Sistema profissional para gestão de estacionamento rotativo em condomínios, desenvolvido com Python (Flask), HTML5, CSS3 e JavaScript. Arquitetura modular, responsiva e segura, seguindo boas práticas de desenvolvimento.
 
 ---
 
-## 🧰 Tecnologias Utilizadas
+## ✨ Funcionalidades Principais
 
-- Python 3.10+
-- Flask
-- HTML5, CSS3 (responsivo, institucional)
-- JavaScript (fetch API, animações)
-- JSON para persistência de dados
+### 🔐 **Controle de Acesso**
+- Login/logout de funcionários com controle de sessão
+- Área restrita do supervisor com senha configurável
+- Auditoria completa de todas as operações
+
+### 🚗 **Gestão de Veículos**
+- Cadastro com validação de CPF e placas (antigo/Mercosul)
+- Suporte a moradores e visitantes
+- Sistema de tipos automático baseado no modelo
+
+### 🅿️ **Controle de Vagas**
+- 20 vagas comuns (moradores) + 10 visitantes
+- Timer regressivo em tempo real (72h limite)
+- Alertas visuais por cores (verde/amarelo/vermelho)
+- Auto-refresh e cleanup de memória
+
+### 📊 **Relatórios e Histórico**
+- Histórico completo de operações
+- Relatórios de tempo excedido
+- Listagem de veículos e funcionários
+- Logs estruturados para auditoria
+
+### 🎨 **Interface Moderna**
+- Design responsivo (mobile-first)
+- Layout institucional profissional
+- Animações CSS suaves
+- Feedback imediato de operações
 
 ---
 
-## 🖥️ Estrutura do Projeto
+## 🏗️ Arquitetura Refatorada (v2.1.0)
+
+### Estrutura Modular
 
 ```
 📁 estacionamento_rotativo1

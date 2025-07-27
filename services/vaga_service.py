@@ -1,15 +1,16 @@
 from datetime import datetime
 import pytz
-import logging
+from config import active_config
+from utils.logging_config import setup_logger, log_error
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Configurar logger
+logger = setup_logger(__name__)
 
 # === Listar status das vagas ===
 def ver_status_vagas(vagas):
+    """Retorna o status atual de todas as vagas"""
     if not vagas:
-        return "📭 Nenhuma vaga cadastrada."
+        return active_config.Mensagens.NENHUMA_VAGA_CADASTRADA
     
     status = ["📋 STATUS DAS VAGAS:"]
     for v in vagas:
@@ -19,9 +20,13 @@ def ver_status_vagas(vagas):
     return "\n".join(status)
 
 # === Verificar tempo excedido ===
-def verificar_tempo_excedido(vagas, limite_horas=72):
+def verificar_tempo_excedido(vagas, limite_horas=None):
+    """Verifica quais veículos excederam o tempo limite de estacionamento"""
     try:
-        agora = datetime.now(pytz.timezone("America/Sao_Paulo"))
+        if limite_horas is None:
+            limite_horas = active_config.LIMITE_HORAS_ESTACIONAMENTO
+            
+        agora = datetime.now(pytz.timezone(active_config.TIMEZONE))
         excedidos = []
         
         for v in vagas:
@@ -42,11 +47,11 @@ def verificar_tempo_excedido(vagas, limite_horas=72):
                     logger.warning(f"Erro ao processar data de entrada da vaga {v.get('numero', '?')}: {e}")
                     continue
                 except Exception as e:
-                    logger.error(f"Erro inesperado ao processar vaga {v.get('numero', '?')}: {e}")
+                    log_error(logger, e, f"processamento da vaga {v.get('numero', '?')}")
                     continue
         
         return excedidos
         
     except Exception as e:
-        logger.error(f"Erro ao verificar tempo excedido: {e}")
+        log_error(logger, e, "verificação de tempo excedido")
         return [] 

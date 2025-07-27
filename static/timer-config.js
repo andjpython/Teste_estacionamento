@@ -1,6 +1,7 @@
 // Configurações globais do timer do sistema de estacionamento
+// NOTA: Sincronizado com config.py - LIMITE_HORAS_ESTACIONAMENTO
 const TIMER_CONFIG = {
-  // Tempo limite em horas (padrão: 72 horas = 3 dias)
+  // Tempo limite em horas (sincronizado com backend)
   LIMITE_HORAS: 72,
   
   // Intervalos de atualização

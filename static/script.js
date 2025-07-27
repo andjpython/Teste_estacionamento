@@ -332,11 +332,17 @@ atualizarHorarioBrasilia();
     const img = document.createElement('img');
     img.src = caminhos[Math.floor(Math.random() * caminhos.length)];
     img.className = 'imagem-flutuante';
-    const size = Math.random() * 120 + 60;
+    
+    // Definir tamanho base maior para mostrar a imagem completa
+    const size = Math.random() * 150 + 80; // Aumentado de 120+60 para 150+80
     img.style.width = `${size}px`;
-    img.style.height = `${size * (Math.random() * 0.4 + 0.8)}px`;
-    img.style.top = `${Math.random() * 80}vh`;
-    img.style.left = `${Math.random() * 80}vw`;
+    
+    // Manter proporção original da imagem sem deformação
+    img.style.height = 'auto'; // Auto mantém a proporção original
+    img.style.objectFit = 'contain'; // Garante que a imagem completa seja visível
+    
+    img.style.top = `${Math.random() * 70}vh`; // Reduzido de 80 para 70 para evitar cortes
+    img.style.left = `${Math.random() * 70}vw`; // Reduzido de 80 para 70 para evitar cortes
     const anim = animacoes[Math.floor(Math.random() * animacoes.length)];
     const dur = Math.random() * 12 + 10;
     img.style.animation = `${anim} ${dur}s linear infinite`;
@@ -352,20 +358,20 @@ atualizarHorarioBrasilia();
 const style = document.createElement('style');
 style.innerHTML = `
 @keyframes flutuar-horizontal {
-  0% { left: -20vw; }
-  100% { left: 110vw; }
+  0% { left: -25vw; }
+  100% { left: 115vw; }
 }
 @keyframes flutuar-vertical {
-  0% { top: -20vh; }
-  100% { top: 110vh; }
+  0% { top: -25vh; }
+  100% { top: 115vh; }
 }
 @keyframes flutuar-diagonal1 {
-  0% { left: -15vw; top: 100vh; }
-  100% { left: 110vw; top: -15vh; }
+  0% { left: -20vw; top: 105vh; }
+  100% { left: 115vw; top: -20vh; }
 }
 @keyframes flutuar-diagonal2 {
-  0% { left: 100vw; top: 110vh; }
-  100% { left: -15vw; top: -15vh; }
+  0% { left: 105vw; top: 115vh; }
+  100% { left: -20vw; top: -20vh; }
 }
 
 /* Animação de borda cintilante com cores do logotipo */
@@ -483,8 +489,29 @@ function adicionarNovaFoto() {
   // Criar elemento da foto
   const fotoDiv = document.createElement('div');
   fotoDiv.className = 'galeria-foto';
-  fotoDiv.style.top = Math.random() * 80 + 'px'; // Posição vertical aleatória
-  fotoDiv.style.left = '-300px'; // Começar fora da tela
+  
+  // Dimensões responsivas baseadas no tamanho da tela
+  const larguraTela = window.innerWidth;
+  let containerHeight, fotoHeight;
+  
+  if (larguraTela <= 480) {
+    containerHeight = 200;
+    fotoHeight = 150;
+  } else if (larguraTela <= 768) {
+    containerHeight = 250;
+    fotoHeight = 180;
+  } else {
+    containerHeight = 300;
+    fotoHeight = 220;
+  }
+  
+  // Melhor posicionamento vertical - centralizado com variação controlada
+  const espacoDisponivel = containerHeight - fotoHeight;
+  const margemSeguranca = 15;
+  const posicaoVertical = Math.random() * Math.max(espacoDisponivel - margemSeguranca, 10) + margemSeguranca/2;
+  
+  fotoDiv.style.top = posicaoVertical + 'px';
+  fotoDiv.style.left = '-350px'; // Começar um pouco mais fora da tela
   
   // Criar imagem
   const img = document.createElement('img');
@@ -492,8 +519,10 @@ function adicionarNovaFoto() {
   img.alt = imagemData.titulo;
   img.style.width = '100%';
   img.style.height = '100%';
-  img.style.objectFit = 'cover';
+  img.style.objectFit = 'contain';
+  img.style.objectPosition = 'center';
   img.style.borderRadius = '12px';
+  img.style.background = 'rgba(255, 255, 255, 0.05)';
   
   // Criar overlay com informações
   const overlay = document.createElement('div');
@@ -604,3 +633,204 @@ window.addEventListener('beforeunload', function() {
     clearInterval(galeriaConfig.intervaloPrincipal);
   }
 });
+
+// ===================== SISTEMA DE NOTIFICAÇÃO DE VEÍCULOS EXCEDIDOS =====================
+
+// Configuração do notificador
+const notificadorConfig = {
+  intervaloVerificacao: 15000, // 15 segundos
+  intervaloPrincipal: null,
+  ultimaVerificacao: null,
+  veiculosExcedidos: []
+};
+
+// Função para verificar veículos com tempo excedido
+async function verificarVeiculosExcedidos() {
+  try {
+    const response = await fetch('/tempo-excedido');
+    const dados = await response.json();
+    
+    if (response.ok) {
+      atualizarNotificador(dados);
+    } else {
+      console.error('Erro ao verificar veículos excedidos:', dados.mensagem);
+    }
+  } catch (error) {
+    console.error('Erro de conexão ao verificar veículos excedidos:', error);
+  }
+}
+
+// Função para atualizar o notificador visual
+function atualizarNotificador(dados) {
+  const notificacoesBox = document.getElementById('notificacoesTempoBox');
+  if (!notificacoesBox) return;
+  
+  const veiculosExcedidos = dados.veiculos_excedidos || [];
+  notificadorConfig.veiculosExcedidos = veiculosExcedidos;
+  
+  if (veiculosExcedidos.length > 0) {
+    // Ativar alerta visual
+    notificacoesBox.classList.add('alerta-tempo-excedido');
+    
+    // Atualizar conteúdo
+    const tituloHtml = `
+      <span class="notificacoes-titulo">
+        <b><i>⚠️ ALERTA: TEMPO EXCEDIDO! ⚠️<br>
+        ${veiculosExcedidos.length} veículo${veiculosExcedidos.length > 1 ? 's' : ''} com tempo esgotado!</i></b>
+      </span>
+    `;
+    
+    const veiculosHtml = veiculosExcedidos.map(veiculo => `
+      <div class="veiculo-excedido-item">
+        <div class="tempo-excedido-badge">⏰ TEMPO EXCEDIDO!</div>
+        <div><strong>🚗 Placa:</strong> ${veiculo.placa}</div>
+        <div><strong>👤 Proprietário:</strong> ${veiculo.nome}</div>
+        <div><strong>📍 Vaga:</strong> ${veiculo.vaga}</div>
+        <div class="info-veiculo">
+          <strong>🏢 Localização:</strong> ${veiculo.bloco ? `Bloco ${veiculo.bloco}` : 'N/A'}
+          ${veiculo.apartamento ? ` - Apto ${veiculo.apartamento}` : ''}
+        </div>
+        <div class="info-veiculo">
+          <strong>⏱️ Tempo excedido:</strong> ${Math.floor(veiculo.tempo_excedido / 60)} horas
+        </div>
+      </div>
+    `).join('');
+    
+    notificacoesBox.innerHTML = `
+      ${tituloHtml}
+      <div class="notificacoes-veiculos-excedidos">
+        ${veiculosHtml}
+      </div>
+    `;
+    
+    // Adicionar som de alerta (opcional)
+    reproduzirSomAlerta();
+    
+  } else {
+    // Desativar alerta visual
+    notificacoesBox.classList.remove('alerta-tempo-excedido');
+    
+    // Restaurar conteúdo original
+    notificacoesBox.innerHTML = `
+      <span class="notificacoes-titulo">
+        <b><i>✅ Notificações de veículos<br>que ultrapassaram o tempo!</i></b>
+      </span>
+      <div style="margin-top: 10px; font-size: 0.9em; color: #2d5016;">
+        <i>Nenhum veículo com tempo excedido no momento</i>
+      </div>
+    `;
+  }
+  
+  notificadorConfig.ultimaVerificacao = new Date();
+}
+
+// Função para reproduzir som de alerta (opcional)
+function reproduzirSomAlerta() {
+  // Criar um beep simples usando Web Audio API
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime); // Frequência do beep
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Volume baixo
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.3);
+  } catch (error) {
+    // Falha silenciosa se não conseguir reproduzir som
+    console.log('Som de alerta não disponível');
+  }
+}
+
+// Função para iniciar o monitoramento
+function iniciarNotificadorVeiculosExcedidos() {
+  // Verificação inicial
+  verificarVeiculosExcedidos();
+  
+  // Configurar verificação periódica
+  if (notificadorConfig.intervaloPrincipal) {
+    clearInterval(notificadorConfig.intervaloPrincipal);
+  }
+  
+  notificadorConfig.intervaloPrincipal = setInterval(() => {
+    verificarVeiculosExcedidos();
+  }, notificadorConfig.intervaloVerificacao);
+  
+  console.log('✅ Sistema de notificação de veículos excedidos iniciado');
+}
+
+// Função para parar o monitoramento
+function pararNotificadorVeiculosExcedidos() {
+  if (notificadorConfig.intervaloPrincipal) {
+    clearInterval(notificadorConfig.intervaloPrincipal);
+    notificadorConfig.intervaloPrincipal = null;
+  }
+  
+  const notificacoesBox = document.getElementById('notificacoesTempoBox');
+  if (notificacoesBox) {
+    notificacoesBox.classList.remove('alerta-tempo-excedido');
+  }
+  
+  console.log('🛑 Sistema de notificação de veículos excedidos parado');
+}
+
+// Função para obter status atual do notificador
+function obterStatusNotificador() {
+  return {
+    ativo: !!notificadorConfig.intervaloPrincipal,
+    ultimaVerificacao: notificadorConfig.ultimaVerificacao,
+    veiculosExcedidos: notificadorConfig.veiculosExcedidos.length,
+    proximaVerificacao: notificadorConfig.ultimaVerificacao ? 
+      new Date(notificadorConfig.ultimaVerificacao.getTime() + notificadorConfig.intervaloVerificacao) : null
+  };
+}
+
+// Inicializar automaticamente quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+  // Aguardar um pouco para garantir que a página esteja carregada
+  setTimeout(() => {
+    iniciarNotificadorVeiculosExcedidos();
+  }, 3000);
+});
+
+// Parar o notificador quando sair da página
+window.addEventListener('beforeunload', function() {
+  pararNotificadorVeiculosExcedidos();
+});
+
+// Pausar/retomar notificador baseado na visibilidade da página
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    // Página não está visível - manter funcionando mas reduzir frequência
+    if (notificadorConfig.intervaloPrincipal) {
+      clearInterval(notificadorConfig.intervaloPrincipal);
+      notificadorConfig.intervaloPrincipal = setInterval(() => {
+        verificarVeiculosExcedidos();
+      }, 60000); // 1 minuto quando não visível
+    }
+  } else {
+    // Página está visível - retomar frequência normal
+    if (notificadorConfig.intervaloPrincipal) {
+      clearInterval(notificadorConfig.intervaloPrincipal);
+      notificadorConfig.intervaloPrincipal = setInterval(() => {
+        verificarVeiculosExcedidos();
+      }, notificadorConfig.intervaloVerificacao);
+    }
+  }
+});
+
+// Expor funções globalmente para debug/controle manual
+window.notificadorDebug = {
+  iniciar: iniciarNotificadorVeiculosExcedidos,
+  parar: pararNotificadorVeiculosExcedidos,
+  verificar: verificarVeiculosExcedidos,
+  status: obterStatusNotificador
+};
+
+console.log('🚨 Sistema de Notificação de Veículos Excedidos carregado!');
+console.log('📋 Use window.notificadorDebug para controle manual');

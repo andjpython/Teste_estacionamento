@@ -434,5 +434,43 @@
         "funcionario": "João Carlos Ferreira Nascimento",
         "matricula": "0001",
         "data_saida": "2025-07-26T21:44:19.359805-03:00"
+    },
+    {
+        "acao": "entrada_veiculo",
+        "placa": "AVX9F34",
+        "nome": "Roberto Carlos Oliveira",
+        "tipo": "morador",
+        "vaga": 1,
+        "data": "2025-07-26T22:53:38.380545-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T08:37:18.266884-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T10:17:40.243459-03:00"
+    },
+    {
+        "acao": "logout",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T10:17:46.768485-03:00"
+    },
+    {
+        "acao": "login",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T10:17:58.938171-03:00"
+    },
+    {
+        "acao": "logout",
+        "matricula": "0001",
+        "nome": "João Carlos Ferreira Nascimento",
+        "data": "2025-07-27T10:18:33.897295-03:00"
     }
 ]

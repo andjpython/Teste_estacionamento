@@ -8,11 +8,11 @@ from estacionamento import (
 from routes.funcionarios_routes import funcionarios_logados
 from datetime import datetime
 import pytz
-import logging
+from config import active_config
+from utils.logging_config import setup_logger, log_operation, log_error
 
-# Configurar logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Configurar logger
+logger = setup_logger(__name__)
 
 veiculos_bp = Blueprint('veiculos', __name__)
 

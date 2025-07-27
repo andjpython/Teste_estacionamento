@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 import pytz
+from config import active_config
 
 # === Funções de validação ===
 def validar_placa(placa):
@@ -66,16 +67,16 @@ def cadastrar_veiculo(veiculos, placa, cpf, modelo, nome, bloco, apartamento):
     
     # Validações
     if any(v['placa'] == placa for v in veiculos):
-        return "❌ Veículo já cadastrado com essa placa."
+        return active_config.Mensagens.VEICULO_JA_CADASTRADO
     
     if not validar_placa(placa):
-        return "❌ Placa inválida. Use formato ABC1234 ou ABC1D23."
+        return active_config.Mensagens.PLACA_INVALIDA
     
     if not validar_cpf(cpf):
-        return "❌ CPF inválido. Verifique os dígitos."
+        return active_config.Mensagens.CPF_INVALIDO
     
     if not nome:
-        return "❌ Nome do proprietário é obrigatório."
+        return active_config.Mensagens.NOME_OBRIGATORIO
     
     # Determinar tipo baseado no modelo
     tipo = "morador" if modelo else "visitante"
@@ -91,12 +92,13 @@ def cadastrar_veiculo(veiculos, placa, cpf, modelo, nome, bloco, apartamento):
         "apartamento": apartamento
     })
     
-    return f"✅ Veículo {placa} cadastrado como {tipo}."
+    return active_config.Mensagens.VEICULO_CADASTRADO.format(placa=placa, tipo=tipo)
 
 # === Listar veículos cadastrados ===
 def listar_veiculos_cadastrados(veiculos):
+    """Lista todos os veículos cadastrados no sistema"""
     if not veiculos:
-        return "📭 Nenhum veículo cadastrado."
+        return active_config.Mensagens.NENHUM_VEICULO_CADASTRADO
     
     linhas = ["📄 VEÍCULOS CADASTRADOS:"]
     for v in veiculos:
