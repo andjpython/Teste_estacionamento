@@ -725,6 +725,144 @@ main {
   background: #cf711f;
 }
 
+/* ===== HEADER DESENVOLVEDOR R@MANOS TECHNOLOGY ===== */
+.developer-header {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 75%, #0f3460 100%);
+  color: #fff;
+  padding: 12px 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.developer-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #FF6B35, #F7931E, #FFD700, #32CD32, #1E90FF, #9932CC, #FF1493);
+  animation: headerGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes headerGlow {
+  0% { opacity: 0.7; transform: translateX(-100%); }
+  50% { opacity: 1; transform: translateX(0%); }
+  100% { opacity: 0.7; transform: translateX(100%); }
+}
+
+.developer-header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.developer-brand {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.developer-header-logo {
+  height: 45px;
+  width: auto;
+  filter: drop-shadow(0 2px 8px rgba(255,107,53,0.3));
+  transition: all 0.3s ease;
+}
+
+.developer-header-logo:hover {
+  filter: drop-shadow(0 4px 12px rgba(255,107,53,0.5));
+  transform: scale(1.05);
+}
+
+.developer-header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.developer-header-name {
+  font-family: 'Bahnschrift', sans-serif;
+  font-size: 1.4em;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD700);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.developer-header-tagline {
+  font-size: 0.85em;
+  color: #B0B8C4;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.developer-header-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9em;
+}
+
+.project-label {
+  color: #8A92B2;
+  font-weight: 500;
+}
+
+.project-name {
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Responsividade do Header */
+@media (max-width: 768px) {
+  .developer-header-container {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .developer-header-name {
+    font-size: 1.2em;
+  }
+  
+  .developer-header-tagline {
+    font-size: 0.8em;
+  }
+  
+  .developer-header-info {
+    font-size: 0.85em;
+  }
+}
+
+@media (max-width: 480px) {
+  .developer-header {
+    padding: 8px 0;
+  }
+  
+  .developer-header-logo {
+    height: 35px;
+  }
+  
+  .developer-header-name {
+    font-size: 1.1em;
+  }
+  
+  .developer-header-info {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
 /* ===== FOOTER PROFISSIONAL ===== */
 .footer-profissional {
   background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -1021,6 +1159,29 @@ main {
   align-items: center;
 }
 
+.company-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.company-logo {
+  height: 35px;
+  width: auto;
+  filter: drop-shadow(0 2px 6px rgba(255,107,53,0.3));
+  transition: all 0.3s ease;
+}
+
+.company-logo:hover {
+  filter: drop-shadow(0 3px 8px rgba(255,107,53,0.5));
+  transform: scale(1.05);
+}
+
+.company-text {
+  display: flex;
+  flex-direction: column;
+}
+
 .company-name {
   background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD700);
   -webkit-background-clip: text;
@@ -1078,6 +1239,32 @@ main {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+}
+
+.tech-logo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+.tech-badge-logo {
+  height: 28px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(255,107,53,0.3));
+  transition: all 0.3s ease;
+}
+
+.tech-badge-logo:hover {
+  filter: drop-shadow(0 3px 6px rgba(255,107,53,0.5));
+  transform: scale(1.05);
+}
+
+.tech-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
 
 .tech-info i {
@@ -1235,6 +1422,26 @@ main {
   
   .tech-stack {
     gap: 10px;
+  }
+  
+  /* Responsividade dos Logos */
+  .company-logo-container {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .company-logo {
+    height: 30px;
+  }
+  
+  .tech-logo-section {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .tech-badge-logo {
+    height: 24px;
   }
 }
 
