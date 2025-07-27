@@ -770,7 +770,7 @@ main {
 }
 
 .developer-header-logo {
-  height: 65px;
+  height: 85px;
   width: auto;
   filter: drop-shadow(0 2px 8px rgba(255,107,53,0.3));
   transition: all 0.3s ease;
@@ -1166,7 +1166,7 @@ main {
 }
 
 .company-logo {
-  height: 55px;
+  height: 75px;
   width: auto;
   filter: drop-shadow(0 2px 6px rgba(255,107,53,0.3));
   transition: all 0.3s ease;
@@ -1249,7 +1249,7 @@ main {
 }
 
 .tech-badge-logo {
-  height: 45px;
+  height: 60px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(255,107,53,0.3));
   transition: all 0.3s ease;

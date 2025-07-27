@@ -36,7 +36,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 <header class="developer-header">
   <div class="developer-header-container">
     <div class="developer-brand">
-             <img src="/static/imagens/R@manos.png" 
+             <img src="/static/imagens/logo_da_empresa.jpg" 
            alt="R@MANOS TECHNOLOGY" 
            class="developer-header-logo">
       <div class="developer-header-text">
@@ -64,7 +64,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 ```html
 <div class="company-brand">
   <div class="company-logo-container">
-         <img src="/static/imagens/R@manos.png" 
+         <img src="/static/imagens/logo_da_empresa.jpg" 
           alt="R@MANOS TECHNOLOGY" 
           class="company-logo">
     <div class="company-text">
@@ -89,7 +89,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 <div class="technology-badge">
   <div class="tech-info">
     <div class="tech-logo-section">
-             <img src="/static/imagens/R@manos.png" 
+             <img src="/static/imagens/logo_da_empresa.jpg" 
             alt="R@MANOS TECHNOLOGY" 
             class="tech-badge-logo">
       <div class="tech-text">
@@ -305,7 +305,7 @@ transition: all 0.3s ease;
 
 ### **📝 Para Atualizar o Logo**
 
-1. **Substitua o arquivo**: `/static/imagens/R@manos.png`
+1. **Substitua o arquivo**: `/static/imagens/logo_da_empresa.jpg`
 2. **Mantenha as dimensões**: Proporção adequada para os tamanhos
 3. **Teste a responsividade**: Verifique em diferentes devices
 4. **Clear cache**: Force refresh para ver mudanças
