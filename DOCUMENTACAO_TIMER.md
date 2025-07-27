@@ -198,8 +198,8 @@ A: Não, o sistema é otimizado para baixo consumo. Usa apenas 1 timer por vaga 
 ## 📞 **SUPORTE**
 
 Para dúvidas ou problemas:
-- 📧 **Email**: admin@estacionamento.com
-- 📱 **WhatsApp**: (11) 99999-9999
+- 📧 **Email**: andjsilveira@hotmail.com
+- 📱 **WhatsApp**: (21) 967105298
 - 🐛 **Bugs**: Reporte via GitHub Issues
 
 ---

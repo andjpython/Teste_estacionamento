@@ -358,8 +358,8 @@ A: Inclua novos `.certificate-badge` na div `.footer-certificates` com ícones e
 
 Para customizações e suporte:
 - 🏢 **Empresa**: R@MANOS TECHNOLOGY
-- 📧 **Email**: dev@ramanos.tech
-- 💬 **WhatsApp**: (21) 98888-8888
+- 📧 **Email**: andjsilveira@hotmail.com
+- 💬 **WhatsApp**: (21) 967105298
 - 🌐 **Website**: www.ramanos.technology
 - 📂 **Portfolio**: github.com/ramanos-tech
 

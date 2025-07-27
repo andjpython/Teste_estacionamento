@@ -267,7 +267,7 @@ A: Sim, personalize a classe `.galeria-foto:hover` no CSS para adicionar novos e
 ## 📞 **SUPORTE**
 
 Para dúvidas ou customizações:
-- 📧 **Email**: dev@recantodasflores.com.br  
+- 📧 **Email**: andjsilveira@hotmail.com  
 - 💬 **Discord**: #galeria-suporte
 - 🐛 **Issues**: GitHub Repository
 - 📖 **Docs**: `/docs/galeria/`
