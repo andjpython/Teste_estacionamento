@@ -67,4 +67,6 @@ def listar_vagas_completas():
 
 # ---------------------- EXECUÇÃO ----------------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Configuração para produção no Render
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
