@@ -54,7 +54,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 
 #### **Características**:
 - ✅ **Posição**: Topo da página (primeira impressão)
-- ✅ **Tamanho**: 45px (desktop) / 35px (mobile)
+- ✅ **Tamanho**: 65px (desktop) / 50px (mobile)
 - ✅ **Efeitos**: Drop-shadow e hover scale
 - ✅ **Acompanhamento**: Nome da empresa e projeto
 
@@ -77,7 +77,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 
 #### **Características**:
 - ✅ **Posição**: Footer central (desenvolvedor em destaque)
-- ✅ **Tamanho**: 35px (desktop) / 30px (mobile)
+- ✅ **Tamanho**: 55px (desktop) / 45px (mobile)
 - ✅ **Contexto**: Área de créditos e informações da empresa
 - ✅ **Estilo**: Gradiente dourado no texto
 
@@ -108,7 +108,7 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 
 #### **Características**:
 - ✅ **Posição**: Canto inferior direito (sempre visível)
-- ✅ **Tamanho**: 28px (desktop) / 24px (mobile)
+- ✅ **Tamanho**: 45px (desktop) / 35px (mobile)
 - ✅ **Função**: Badge de tecnologias utilizadas
 - ✅ **Interação**: Hover com elevação
 
@@ -120,9 +120,9 @@ Integração completa do **logo da R@MANOS TECHNOLOGY** no sistema, seguindo as 
 
 | Dispositivo | Header Logo | Footer Logo | Badge Logo |
 |-------------|-------------|-------------|------------|
-| **Desktop** | 45px | 35px | 28px |
-| **Tablet** | 40px | 32px | 26px |
-| **Mobile** | 35px | 30px | 24px |
+| **Desktop** | 65px | 55px | 45px |
+| **Tablet** | 55px | 50px | 40px |
+| **Mobile** | 50px | 45px | 35px |
 
 ### **🎭 Efeitos Visuais**
 
@@ -181,21 +181,21 @@ transition: all 0.3s ease;
 ### **Logo Styling**
 ```css
 .developer-header-logo {
-  height: 45px;
+  height: 65px;
   width: auto;
   filter: drop-shadow(0 2px 8px rgba(255,107,53,0.3));
   transition: all 0.3s ease;
 }
 
 .company-logo {
-  height: 35px;
+  height: 55px;
   width: auto;
   filter: drop-shadow(0 2px 6px rgba(255,107,53,0.3));
   transition: all 0.3s ease;
 }
 
 .tech-badge-logo {
-  height: 28px;
+  height: 45px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(255,107,53,0.3));
   transition: all 0.3s ease;
