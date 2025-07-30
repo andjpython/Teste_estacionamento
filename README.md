@@ -79,26 +79,75 @@ Sistema profissional para gestão de estacionamento rotativo em condomínios, de
 
 ## 📦 Como executar o projeto
 
-1. Clone o repositório:
+### 🐘 Versão PostgreSQL (Recomendada)
+
+1. **Clone o repositório:**
 ```bash
 git clone <URL_DO_REPOSITORIO>
 cd estacionamento_rotativo1
 ```
-2. Instale as dependências:
+
+2. **Instale as dependências:**
 ```bash
-pip install flask flask-cors
+pip install -r requirements.txt
 ```
-3. Defina a senha do supervisor (opcional):
+
+3. **Configure PostgreSQL:**
+   - Siga o guia detalhado: [POSTGRESQL_SETUP.md](POSTGRESQL_SETUP.md)
+   - Ou use o comando rápido:
+   ```bash
+   # Instalar PostgreSQL (Ubuntu/Debian)
+   sudo apt update && sudo apt install postgresql postgresql-contrib
+   
+   # Criar banco e usuário
+   sudo -u postgres psql -c "CREATE USER estacionamento_user WITH ENCRYPTED PASSWORD 'sua_senha_segura';"
+   sudo -u postgres psql -c "CREATE DATABASE estacionamento_db OWNER estacionamento_user;"
+   sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE estacionamento_db TO estacionamento_user;"
+   ```
+
+4. **Configure as variáveis de ambiente:**
 ```bash
-set SENHA_SUPERVISOR=suasenha
+# Copie o arquivo de exemplo
+cp .env.example .env
+
+# Edite as configurações (especialmente DATABASE_URL)
+nano .env
 ```
-4. Execute o sistema:
+
+5. **Execute a migração dos dados (se houver dados JSON):**
+```bash
+python migrate_to_postgresql.py
+```
+
+6. **Execute o sistema:**
 ```bash
 python app.py
 ```
-5. Acesse no navegador:
+
+7. **Acesse no navegador:**
 ```
 http://127.0.0.1:5000/
+```
+
+### 📁 Versão JSON (Legacy)
+
+Para usar a versão anterior com arquivos JSON:
+
+1. **Clone e instale:**
+```bash
+git clone <URL_DO_REPOSITORIO>
+cd estacionamento_rotativo1
+pip install flask flask-cors pytz
+```
+
+2. **Configure variáveis (opcional):**
+```bash
+export SENHA_SUPERVISOR=suasenha
+```
+
+3. **Execute:**
+```bash
+python app.py
 ```
 
 ---
@@ -119,6 +168,39 @@ http://127.0.0.1:5000/
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Sinta-se à vontade para usar, estudar, adaptar e compartilhar.
+
+---
+
+## 🗄️ Banco de Dados PostgreSQL
+
+### Vantagens da Migração
+
+✅ **Desempenho Superior:** Consultas otimizadas e índices automáticos  
+✅ **Concorrência:** Múltiplos usuários simultâneos sem conflitos  
+✅ **Integridade:** Relacionamentos e validações no banco  
+✅ **Escalabilidade:** Suporte a milhares de registros  
+✅ **Backup Automático:** Ferramentas nativas de backup/restore  
+✅ **Deploy Facilitado:** Compatível com Heroku, Render, Railway, etc.
+
+### Estrutura do Banco
+
+```sql
+-- Tabelas criadas automaticamente
+veiculos (id, placa, nome, cpf, modelo, tipo, bloco, apartamento, data_cadastro)
+vagas (id, numero, tipo, ocupada, placa_veiculo, entrada)
+funcionarios (id, nome, matricula, cargo, data_cadastro, ativo)
+historico (id, tipo_operacao, placa_veiculo, numero_vaga, funcionario_matricula, 
+          funcionario_nome, tempo_permanencia, observacoes, data_operacao)
+```
+
+### Recursos Avançados
+
+- **Relacionamentos:** Foreign keys entre veículos e vagas
+- **Índices:** Busca otimizada por placa, matrícula, data
+- **Soft Delete:** Funcionários desativados em vez de removidos
+- **Auditoria Completa:** Histórico detalhado de todas as operações
+- **Timezone:** Suporte nativo a fusos horários
+- **Validações:** Constraints no banco de dados
 
 ---
 

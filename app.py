@@ -4,16 +4,27 @@ from datetime import datetime
 
 from flask import Flask, request, jsonify, render_template, redirect, url_for
 from flask_cors import CORS
-from estacionamento import (
-    carregar_dados,
-    salvar_dados
-)
+from config import active_config
+
+# Importar modelos e configuração da base de dados
+from models import db, Veiculo, Vaga, Funcionario, Historico
+from models.database import init_db
+
+# Importar rotas
 from routes.supervisor_routes import supervisor_bp
 from routes.funcionarios_routes import funcionarios_bp
 from routes.veiculos_routes import veiculos_bp
 
 app = Flask(__name__)
 CORS(app)
+
+# Configurar SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = active_config.SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = active_config.SQLALCHEMY_TRACK_MODIFICATIONS
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = active_config.SQLALCHEMY_ENGINE_OPTIONS
+
+# Inicializar base de dados
+init_db(app)
 
 app.register_blueprint(supervisor_bp)
 app.register_blueprint(funcionarios_bp)
@@ -42,21 +53,21 @@ def supervisor_sistema():
 @app.route('/vagas-completas', methods=['GET'])
 def listar_vagas_completas():
     try:
-        veiculos, vagas, historico, funcionarios = carregar_dados()
-        
-        # Adicionar informações completas dos veículos
+        # Buscar todas as vagas com informações dos veículos
+        vagas = Vaga.query.all()
         vagas_completas = []
+        
         for vaga in vagas:
-            vaga_info = vaga.copy()
-            if vaga['ocupada'] and vaga['veiculo']:
-                # Buscar informações do veículo
-                veiculo_info = next((v for v in veiculos if v['placa'] == vaga['veiculo']), None)
-                if veiculo_info:
-                    vaga_info['proprietario'] = veiculo_info['nome']
-                    vaga_info['cpf'] = veiculo_info['cpf']
-                    vaga_info['modelo'] = veiculo_info['modelo']
-                    vaga_info['bloco'] = veiculo_info['bloco']
-                    vaga_info['apartamento'] = veiculo_info['apartamento']
+            vaga_info = vaga.to_dict()
+            if vaga.ocupada and vaga.veiculo_estacionado:
+                veiculo = vaga.veiculo_estacionado
+                vaga_info.update({
+                    'proprietario': veiculo.nome,
+                    'cpf': veiculo.cpf,
+                    'modelo': veiculo.modelo,
+                    'bloco': veiculo.bloco,
+                    'apartamento': veiculo.apartamento
+                })
             
             vagas_completas.append(vaga_info)
         
