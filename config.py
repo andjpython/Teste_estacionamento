@@ -40,6 +40,18 @@ class Config:
     # Senha do supervisor (variável de ambiente ou padrão)
     SENHA_SUPERVISOR = os.environ.get("SENHA_SUPERVISOR", "290479")
     
+    # === BANCO DE DADOS ===
+    # URL de conexão PostgreSQL
+    DATABASE_URL = os.environ.get('DATABASE_URL', 'postgresql://username:password@localhost:5432/estacionamento_db')
+    
+    # Configurações SQLAlchemy
+    SQLALCHEMY_DATABASE_URI = DATABASE_URL
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
+    
     # === TIMEZONE ===
     TIMEZONE = "America/Sao_Paulo"
     
